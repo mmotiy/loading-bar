@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" style="width: 100%;height: 100%;font-size: 40px">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        @font-face {
+            font-family: "Zephyrea";
+            src: url(zephyrea.ttf) format("truetype");
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+            font-family:"Zephyrea"
+        }
+
+        /*.loadding{*/
+        /*transform:rotate(-90deg);*/
+        /*-ms-transform:rotate(-90deg); 	!* IE 9 *!*/
+        /*-moz-transform:rotate(-90deg); 	!* Firefox *!*/
+        /*-webkit-transform:rotate(-90deg); !* Safari 和 Chrome *!*/
+        /*-o-transform:rotate(-90deg);*/
+        /*}*/
+    </style>
+</head>
+<body style="width: 100%;height: 100%">
+<!--启用字体-->
+<h1 style="position: absolute;top: -500px;display: block;">　</h1>
+<canvas class="loadding" style="">
+
+</canvas>
+<script type="text/javascript">
+    window.onload = function () {
+
+
+        var baseSize = parseInt(document.getElementsByTagName('html')[0].style.fontSize.replace('px', ''), 10);
+        var innerWidth = window.innerWidth ? window.innerWidth : window.outerWidth
+        var innerHeight = window.innerHeight ? window.innerHeight : window.outerHeight
+        var maxR = baseSize * 1.9;
+        var elementsByClassNames = document.getElementsByClassName('loadding');
+        var elementsByClassName = elementsByClassNames[0];
+        elementsByClassName.setAttribute('width', innerWidth - 10)
+        elementsByClassName.setAttribute('height', innerHeight - 10)
+        var canvasW = innerWidth - 10
+        var canvasH = innerHeight - 10
+        var ctx = elementsByClassName.getContext("2d");
+
+        ctx.translate(canvasW / 2, canvasH / 2)
+        ctx.rotate(-(90 * Math.PI / 180));
+
+        ctx.save();
+        ctx.strokeStyle = '#f3f3f3'
+        ctx.lineWidth = baseSize / 1.3;
+        //ctx.translate(canvasW/2, canvasH/2)
+        ctx.shadowColor = 'rgba(44,166,224,0.33)';
+        ctx.shadowOffsetX = 3;
+        ctx.shadowOffsetY = 3;
+        ctx.shadowBlur = 8;
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.stroke();
+        ctx.restore();
+
+
+        /*ctx.fillStyle = 'red'; 心形
+         ctx.beginPath();
+         ctx.moveTo(150, 60);                        // start at point 0
+         ctx.bezierCurveTo(150, 30, 100, 30, 90, 30);  // from point 0 to point 1
+         ctx.bezierCurveTo(60, 30, 30, 60, 30, 90);      // from point 1 to point 2
+         ctx.bezierCurveTo(30, 180, 90, 210, 150, 240);  // from point 2 to point 3
+         ctx.bezierCurveTo(210, 210, 270, 180, 270, 90); // from point 3 to point 4
+         ctx.bezierCurveTo(270, 60, 240, 30, 210, 30);   // from point 4 to point 5
+         ctx.bezierCurveTo(180, 30, 150, 30, 150, 60);   // from point 5 to point 0
+         ctx.stroke();*/
+        function drawSteps(_ctx, beginRadian, endRadian, r, interval) {
+            _ctx.save()
+            _ctx.fillStyle = '#2ca6e0';
+            //_ctx.translate(canvasW/2, canvasH/2);
+            _ctx.beginPath()
+            _ctx.lineTo(0, 0)
+            _ctx.arc(0, 0, r, beginRadian + interval, endRadian - interval, false);
+            _ctx.closePath()
+            _ctx.fill();
+            _ctx.restore();
+        }
+
+        var pieceRadian = 2 * Math.PI / 20
+        var interval = pieceRadian * 0.05
+        drawSteps(ctx, 0, pieceRadian, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian, pieceRadian * 2, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 2, pieceRadian * 3, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 3, pieceRadian * 4, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 4, pieceRadian * 5, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 5, pieceRadian * 6, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 6, pieceRadian * 7, maxR * 1.12, interval)
+        drawSteps(ctx, pieceRadian * 7, pieceRadian * 8, maxR * 1.12, interval)
+        //内部填充背景
+        ctx.save();
+        ctx.fillStyle = '#FFF'
+        //ctx.translate(canvasW/2, canvasH/2)
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR * 0.9, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.fill();
+        ctx.restore();
+
+        //从外至内 第一个白色环
+        ctx.save();
+        //ctx.translate(canvasW/2, canvasH/2)
+        var lg = ctx.createLinearGradient(maxR * 0.85 * 1.414 / 2, -maxR * 0.85 * 1.414 / 2, -maxR * 0.85 * 1.414 / 2, maxR * 0.85 * 1.414 / 2);  // define a linear gradient
+        lg.addColorStop(0, '#fff');                            // start the gradient with the color 'yellow'
+        lg.addColorStop(1, '#f1f1f2');
+        ctx.strokeStyle = lg
+        ctx.lineWidth = baseSize / 5.96;
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR * 0.85, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.stroke();
+        ctx.restore();
+
+        //从外至内 第二个灰色环
+        ctx.save();
+        //ctx.translate(canvasW/2, canvasH/2)
+        lg = ctx.createLinearGradient(maxR * 0.78 * 1.414 / 2, -maxR * 0.78 * 1.414 / 2, -maxR * 0.78 * 1.414 / 2, maxR * 0.78 * 1.414 / 2);  // define a linear gradient
+        lg.addColorStop(0, '#f3f3f3');
+        lg.addColorStop(1, '#fff');                            // start the gradient with the color 'yellow'
+        ctx.strokeStyle = lg
+        ctx.lineWidth = baseSize / 6;
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR * 0.78, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.stroke();
+        ctx.restore();
+
+        //从外至内 第二个白色环
+        ctx.save();
+        //ctx.translate(canvasW/2, canvasH/2)
+        lg = ctx.createLinearGradient(maxR * 0.66 * 1.414 / 2, -maxR * 0.66 * 1.414 / 2, -maxR * 0.66 * 1.414 / 2, maxR * 0.66 * 1.414 / 2);  // define a linear gradient
+        lg.addColorStop(0, '#fff');
+        lg.addColorStop(1, '#efefef');
+        ctx.strokeStyle = lg
+        ctx.lineWidth = baseSize / 6;
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR * 0.685, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.stroke();
+        ctx.restore();
+
+
+        ctx.save();
+        //ctx.translate(canvasW/2, canvasH/2)
+        lg = ctx.createLinearGradient(0, 0, -maxR * 0.66 * 1.414 / 2, maxR * 0.66 * 1.414 / 2);  // define a linear gradient
+        lg.addColorStop(0, '#f1f1f1');
+        lg.addColorStop(1, '#fff');
+        ctx.fillStyle = lg;
+        ctx.beginPath()
+        ctx.arc(0, 0, maxR * 0.65, 0, 2 * Math.PI, false);
+        ctx.closePath()
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        //ctx.translate(canvasW/2, canvasH/2)
+        ctx.fillStyle = '#b4b4b5'
+        ctx.font = baseSize + 'px Zephyrea ';
+        ctx.rotate(90 * Math.PI / 180);
+        ctx.textAlign = 'center'
+        var offsetY = ctx.measureText("40%").width / '40%'.length
+        ctx.fillText('40%', 0, offsetY)
+        ctx.restore();
+    }
+</script>
+</body>
+</html>
